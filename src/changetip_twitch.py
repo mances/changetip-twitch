@@ -26,7 +26,7 @@ class ChangeTipTwitch(BaseBot):
 
         # Check if the message contains a receiver, if not then assume it is for the channel owner
         receiver = channel.replace("#", "")
-        pattern = regex.compile("(?<=^|(?<=[^a-zA-Z0-9-_\.]))@([A-Za-z]+[A-Za-z0-9]+)")
+        pattern = regex.compile("(?<=^|(?<=[^a-zA-Z0-9-_\.]))@([A-Za-z0-9_]+)")
         tipped = regex.findall(pattern, message)
 
         if len(tipped) == 1:
@@ -83,7 +83,9 @@ class ChangeTipTwitch(BaseBot):
 
         if has_next:
             offset += limit+1
-            return users.extend(self.get_users(offset))
+            next_users = self.get_users(offset)
+            users.extend(next_users)
+            return users
         else:
             return users
 
